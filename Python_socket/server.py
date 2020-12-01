@@ -3,7 +3,8 @@ import threading
 
 HEADER = 64
 PORT = 5050
-SERVER = socket.gethostbyname(socket.gethostname())
+# SERVER = socket.gethostbyname(socket.gethostname())
+SERVER = '192.168.0.100'
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MSG = "!DISCONNECT"
@@ -38,5 +39,5 @@ def start():
     thread.start()
     print(f"[ACTIVE CONNECTIONS] {threading.activeCount()- 1} ")
 
-print("[STARTING] server is starting...")
+print("[STARTING] server is starting.......")
 start()
