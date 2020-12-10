@@ -4,7 +4,7 @@ from scapyTools import scapyLatency as sl
 from scapyTools import latencyGraph as lg
 from ast import literal_eval
 import os
-
+# except ValueError
 
 print("\n\n\n")
 print("[-----------------------------------------------------------------]")
@@ -34,42 +34,42 @@ while True:
 
     while True:
         try:
-            choice = int(input("[_N-M-T_] PROGRAM-NUMBER: "))
+            choice = int(input("PROGRAM-NUMBER: "))
             if choice >= 0 and choice <= 8:
                 break
             else:
-                print("\n[_N-M-T_] THAT'S NOT A VALID INPUT! PLEASE TRY AGAIN.\n")
-        except:
-            print("\n[_N-M-T_] THAT'S NOT A VALID INPUT! PLEASE TRY AGAIN.\n")
+                print("\n[I N F O] THAT'S NOT AN VALID INPUT! PLEASE TRY AGAIN.\n")
+        except ValueError:
+            print("\n[I N F O] THAT'S NOT AN VALID INPUT! PLEASE TRY AGAIN.\n")
 
-    os.system("cls")
+    os.system("clear")
 
     if choice == 0:
-        print("[_N-M-T_] YOU HAVE CHOSEN EXIT OF MODULE - TOOL\n\n")
+        print("[I N F O] YOU HAVE CHOSEN EXIT OF MODULE - TOOL\n\n")
         break
     elif choice == 1:
-        print("[_N-M-T_] YOU HAVE CHOSEN TCP / UDP TRAFFIC - TOOL")
+        print("[I N F O] YOU HAVE CHOSEN TCP / UDP TRAFFIC - TOOL")
         stm.mainFunction()
     elif choice == 2:
-        print("[_N-M-T_] YOU HAVE CHOSEN IRTT\n\n")
-        print("[_N-M-T_] CURRENTLY NOT AVAILABLE ... COMMING SOON")
+        print("[I N F O] YOU HAVE CHOSEN IRTT\n\n")
+        print("[I N F O] CURRENTLY NOT AVAILABLE ... COMMING SOON")
     elif choice == 3:
-        print("[_N-M-T_] YOU HAVE CHOSEN Scapy\n\n")
-        print("[_N-M-T_] CURRENTLY NOT AVAILABLE ... COMMING SOON")
+        print("[I N F O] YOU HAVE CHOSEN Scapy\n\n")
+        print("[I N F O] CURRENTLY NOT AVAILABLE ... COMMING SOON")
     elif choice == 4:
-        print("[_N-M-T_] YOU HAVE CHOSEN Ostinato\n\n")
-        print("[_N-M-T_] CURRENTLY NOT AVAILABLE ... COMMING SOON")
+        print("[I N F O] YOU HAVE CHOSEN Ostinato\n\n")
+        print("[I N F O] CURRENTLY NOT AVAILABLE ... COMMING SOON")
     elif choice == 5:
-        print("[_N-M-T_] YOU HAVE CHOSEN Others...\n\n")
-        print("[_N-M-T_] CURRENTLY NOT AVAILABLE ... COMMING SOON")
+        print("[I N F O] YOU HAVE CHOSEN Others...\n\n")
+        print("[I N F O] CURRENTLY NOT AVAILABLE ... COMMING SOON")
     elif choice == 6:
-        print("[_N-M-T_] YOU HAVE CHOSEN (Scapy) Latency-Graph\n\n")
+        print("[I N F O] YOU HAVE CHOSEN (Scapy) Latency-Graph\n\n")
         lg.startFunction()
     elif choice == 7:
-        print("[_N-M-T_] YOU HAVE CHOSEN (Scapy) Latency\n\n")
+        print("[I N F O] YOU HAVE CHOSEN (Scapy) Latency\n\n")
         sl.startFunction()
     elif choice == 8:
-        print("[_N-M-T_] YOU HAVE CHOSEN (Scapy) TCPTraceRoute Graph\n\n")
+        print("[I N F O] YOU HAVE CHOSEN (Scapy) TCPTraceRoute Graph\n\n")
         ttrg.startFunction()
 
 

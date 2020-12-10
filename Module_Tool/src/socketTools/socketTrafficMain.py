@@ -15,7 +15,7 @@ def mainFunction():
         print("[_N-M-T_] (4) UDP - TRAFFIC - SERVER")
         print("[_N-M-T_] (5) EXIT OF TCP - TRAFFIC - SENDER\n")
 
-        print("[_N-M-T_] PLEASE CHOOSE A OPTION WITH A NUMBER.")
+        print("[_N-M-T_] PLEASE CHOOSE AN OPTION WITH A NUMBER.")
 
         while True:
             try:
@@ -24,29 +24,31 @@ def mainFunction():
                     break
                 else:
                     print(
-                        "\n[_N-M-T_] THAT'S NOT A VALID INPUT! PLEASE TRY AGAIN.\n")
-            except:
-                print("\n[_N-M-T_] THAT'S NOT A VALID INPUT! PLEASE TRY AGAIN.\n")
+                        "\n[I N F O] THAT'S NOT AN VALID INPUT! PLEASE TRY AGAIN.\n")
+            except ValueError:
+                print("\n[_N-M-T_] THAT'S NOT AN VALID INPUT! PLEASE TRY AGAIN.\n")
 
-        os.system("cls")
+        os.system("clear")
+
+        # ELSE
 
         if choice == 1:
-            print("[_N-M-T_] YOU HAVE CHOSEN TCP - TRAFFIC - CLIENT")
+            print("[I N F O] YOU HAVE CHOSEN TCP - TRAFFIC - CLIENT")
             CTCP.startFunction()
         elif choice == 2:
-            print("[_N-M-T_] YOU HAVE CHOSEN UDP - TRAFFIC - CLIENT\n\n")
+            print("[I N F O] YOU HAVE CHOSEN UDP - TRAFFIC - CLIENT\n\n")
             CUDP.startFunction()
         elif choice == 3:
-            print("[_N-M-T_] YOU HAVE CHOSEN TCP - TRAFFIC - SERVER\n\n")
+            print("[I N F O] YOU HAVE CHOSEN TCP - TRAFFIC - SERVER\n\n")
             STCP.startFunction()
         elif choice == 4:
-            print("[_N-M-T_] YOU HAVE CHOSEN UDP - TRAFFIC - SERVER\n\n")
+            print("[I N F O] YOU HAVE CHOSEN UDP - TRAFFIC - SERVER\n\n")
             SUDP.startFunction()
         elif choice == 5:
-            print("[_N-M-T_] YOU HAVE CHOSEN EXIT OF TCP - TRAFFIC - SENDER\n\n")
+            print("[I N F O] YOU HAVE CHOSEN EXIT OF TCP - TRAFFIC - SENDER\n\n")
             break
 
-    input()
+    input("[I N F O] PLEASE PRESS ENTER TO EXIT...")
     print("\n\n[_N-M-T_] EXIT TCP / UDP TRAFFIC - TOOL\n\n")
 
 

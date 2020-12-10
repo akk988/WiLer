@@ -1,13 +1,16 @@
-from scapyTools.all import*
-# p=send(IP(dst="192.168.0.1")/ICMP())
+from scapy.all import *
+import matplotlib.pyplot as plt
 
 
 def startFunction():
-    print("\n\n[_N-M-T_] *** WELCOME TO (Scapy) - Latency Tool ***\n\n")
+    print("\n\n[_N-M-T_] *** WELCOME TO (Scapy) - Latency - Graph Tool ***\n\n")
 
     # asking for input
     print("\n[_N-M-T_] TYPE IN THE DESTINATION IP.")
     dest = input("DESTINATION IP: ")
+
+    # p = send(IP(dst="192.168.0.1")/ICMP())
+    p = send(IP(dest)/ICMP())
 
     # dest = "192.168.0.105"
     pkt = []
@@ -19,13 +22,22 @@ def startFunction():
 
     print("scapy version: {}".format(conf.version))
 
+    lat = []
+    x = []
+    i = 0
     for pkt in ans:
         sent = pkt[0]
         received = pkt[1]
         res = (received.time - sent.sent_time) * 1000
+        x.append(i)
+        lat.append(res)
         print(res)
+        i += 1
 
-    print("\n\n[_N-M-T_] *** EXIT FROM (Scapy) - Latency Tool ***\n\n")
+    plt.plot(x, lat)
+    plt.show()
+
+    print("\n\n[_N-M-T_] *** EXIT FROM (Scapy) - Latency - Graph - Tool ***\n\n")
 
 
 if (__name__ == '__main__'):

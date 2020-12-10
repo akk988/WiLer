@@ -14,15 +14,14 @@ def startFunction():
         try:
             TIMES = int(input("TIMES: "))
             break
-        except:
-            print("\n[_N-M-T_] THAT'S NOT A VALID INPUT! PLEASE TRY AGAIN.\n")
+        except ValueError:
+            print("\n[I N F O] THAT'S NOT AN VALID INPUT! PLEASE TRY AGAIN.\n")
 
     # Define const variables
     HEADER = 64
     PORT = 5050
     FORMAT = 'utf-8'
     DISCONNECT_MSG = "!DISCONNECT"
-    IP = "172.23.160.1"
     ADDR = (IP, PORT)
 
     # create a TCP socket & connect to Server
@@ -37,15 +36,15 @@ def startFunction():
         client.send(send_length)
         client.send(message)
         received_msg = client.recv(2048).decode(FORMAT)
-        print("[TCP][CLIENT] RECEIVED MESSAGE:", received_msg)
+        print("[TCP FROM SERVER] RECEIVED MESSAGE:", received_msg)
 
-    print(f"\n[_N-M-T_] SENDING {TIMES} x {MSG} to {IP} ...")
+    print(f"\n[_N-M-T_] SENDING {TIMES} x {MSG} to {IP} ...\n")
     for i in range(TIMES):
         sendMessage(MSG)
     sendMessage(DISCONNECT_MSG)
     print(f"\n[_N-M-T_] ...SENDING COMPLETED.")
 
-    input()
+    input("[I N F O] PLEASE PRESS ENTER TO EXIT...")
     print("\n\n[_N-M-T_] EXIT TCP - TRAFFIC - CLIENT\n\n")
 
 

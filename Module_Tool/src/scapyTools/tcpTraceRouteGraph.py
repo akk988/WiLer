@@ -1,4 +1,4 @@
-from scapyTools.all import*
+from scapy.all import *
 
 
 def startFunction():
