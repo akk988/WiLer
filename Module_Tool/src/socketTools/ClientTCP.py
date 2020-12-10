@@ -26,7 +26,10 @@ def startFunction():
 
     # create a TCP socket & connect to Server
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(ADDR)
+    try:
+        client.connect(ADDR)
+    except (OSError, socket.gaierror) as err:
+        print("\n[_N-M-T_] EXIT FROM TCP - TRAFFIC - CLIENT")
 
     def sendMessage(msg):
         message = msg.encode(FORMAT)
