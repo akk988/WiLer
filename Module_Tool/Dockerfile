@@ -19,11 +19,17 @@ ENTRYPOINT python programm.py
 # RUN pip install graphviz 
 # RUN pip install scapy 
 # RUN pip install matplotlib 
+# wget https://golang.org/dl/go1.15.6.linux-armv6l.tar.gz -o golang.tar.gz
+# tar -C /usr/local -xzf golang.tar.gz
+# tar -C /usr/local -xzf go1.15.6.linux-armv6l.tar.gz
+# tar -C /usr/local -xzf go1.15.6.linux-amd64.tar.gz
+# export PATH=$PATH:/usr/local/go/bin
 
-# docker build -t moduletool_X .
-# -p 172.17.192.1:5050:5050/tcp
-# docker run -it -p 172.17.192.1:5050:5050/tcp --name moduletool_5 moduletool_4 bash
-# docker run -it -p 172.17.192.1:5050:5050/tcp moduletool_4 bash
 
+# apt-get install wget && apt-get install git
+# wget https://golang.org/dl/go1.15.6.linux-amd64.tar.gz
+# tar -C /usr/local -xzf go1.15.6.linux-amd64.tar.gz
+# export PATH=$PATH:/usr/local/go/bin
+# go get -u github.com/heistp/irtt/cmd/irtt
 
-# docker start -i moduletool_X
+# go version
