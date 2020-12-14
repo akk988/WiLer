@@ -1,10 +1,12 @@
+from ast import literal_eval
+import os
 from socketTools import socketTrafficMain as stm
 from scapyTools import tcpTraceRouteGraph as ttrg
 from scapyTools import scapyLatency as sl
 from scapyTools import latencyGraph as lg
-from ast import literal_eval
-import os
-# except ValueError
+
+# 1.) ^^Import above this a new tool^^
+
 
 print("\n\n\n")
 print("[-----------------------------------------------------------------]")
@@ -18,6 +20,7 @@ print("\n\n\n")
 print("[_N-M-T_] ...PRESS ENTER FOR START...\n")
 input()
 
+# Creating a Userchoice
 while True:
     print("[_N-M-T_] HERE IS THE LIST OF OUR AVAILABLE PROGRAMS")
     print("[_N-M-T_] (0) EXIT OF MODULE - TOOL\n")
@@ -30,12 +33,14 @@ while True:
     print("[_N-M-T_] (7) (Scapy) Latency\n")
     print("[_N-M-T_] (8) (Scapy) TCPTraceRoute Graph\n")
 
+    # 2.) ^^Import above this a new tool^^
+
     print("[_N-M-T_] PLEASE CHOOSE A PROGRAM WITH A NUMBER.")
 
     while True:
         try:
             choice = int(input("PROGRAM-NUMBER: "))
-            if choice >= 0 and choice <= 8:
+            if choice >= 0 and choice <= 8:  # 3.) <-- increase this number to the number of available tools
                 break
             else:
                 print("\n[I N F O] THAT'S NOT AN VALID INPUT! PLEASE TRY AGAIN.\n")
@@ -44,6 +49,7 @@ while True:
 
     os.system("clear")
 
+    # creating a switch for the different tools
     if choice == 0:
         print("[I N F O] YOU HAVE CHOSEN EXIT OF MODULE - TOOL\n\n")
         break
@@ -71,6 +77,8 @@ while True:
     elif choice == 8:
         print("[I N F O] YOU HAVE CHOSEN (Scapy) TCPTraceRoute Graph\n\n")
         ttrg.startFunction()
+
+    # 4.) ^^Import above this a new tool^^
 
 
 print("\n\n[_N-M-T_] GOOD BYE!\n\n")

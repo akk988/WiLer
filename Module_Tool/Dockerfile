@@ -21,4 +21,9 @@ ENTRYPOINT python programm.py
 # RUN pip install matplotlib 
 
 # docker build -t moduletool_X .
-# docker run -it --name moduletool_2 moduletool_2 bash
+# -p 172.17.192.1:5050:5050/tcp
+# docker run -it -p 172.17.192.1:5050:5050/tcp --name moduletool_5 moduletool_4 bash
+# docker run -it -p 172.17.192.1:5050:5050/tcp moduletool_4 bash
+
+
+# docker start -i moduletool_X

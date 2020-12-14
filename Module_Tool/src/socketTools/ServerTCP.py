@@ -28,11 +28,10 @@ def welcome_function():
             print("\n[I N F O] THAT'S NOT AN VALID INPUT! PLEASE TRY AGAIN.\n")
 
     if option == 1:
-        # os.system("cls")  # for windows
-        os.system("clear")  # for linux
         print("[I N F O] LOADING YOUR IP-DATA...")
-        # os.system("ipconfig")  # for windows
-        os.system("ifconfig")  # for linux
+        os.system("ipconfig")  # for windows
+        # os.system("ifconfig")  # for linux
+        # os.system("ip addr show lo")
 
     print("[_N-M-T_] PLEASE INSERT NOW YOUR IP")
     return input("SERVER IP: ")
