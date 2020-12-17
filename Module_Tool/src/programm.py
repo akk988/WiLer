@@ -9,6 +9,7 @@ from scapyTools import latencyGraph as lg
 
 
 print("\n\n\n")
+print("\u001b[32m")
 print("[-----------------------------------------------------------------]")
 print("[************************* W E L C O M E *************************]")
 print("[*************************      T O      *************************]")
@@ -16,6 +17,7 @@ print("[************************* N E T W O R K *************************]")
 print("[********************* M O D U L E - T O O L *********************]")
 print("[-----------------------------------------------------------------]")
 print("\n\n\n")
+print("\u001b[37m")
 
 print("[_N-M-T_] ...PRESS ENTER FOR START...\n")
 input()
@@ -35,7 +37,7 @@ while True:
 
     # 2.) ^^Import above this a new tool^^
 
-    print("[_N-M-T_] PLEASE CHOOSE A PROGRAM WITH A NUMBER.")
+    print("\u001b[31m[_N-M-T_] PLEASE CHOOSE A PROGRAM WITH A NUMBER.\u001b[37m")
 
     while True:
         try:

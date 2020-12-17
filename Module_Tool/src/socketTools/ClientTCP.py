@@ -2,7 +2,9 @@ import socket
 
 
 def startFunction():
+    print("\u001b[32m")
     print("\n\n[_N-M-T_] *** WELCOME TO TCP - TRAFFIC - CLIENT ***\n\n")
+    print("\u001b[37m")
 
     # asking for input
     print("\n[_N-M-T_] TYPE IN THE SERVER IP.")

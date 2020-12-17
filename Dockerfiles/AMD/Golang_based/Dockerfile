@@ -1,6 +1,6 @@
 FROM golang:1.15.4
 WORKDIR /usr/src/app
-COPY /src . 
+# COPY /src . 
 RUN apt-get update && \
   apt-get upgrade --no-install-recommends --yes && \
   apt-get install python3 --no-install-recommends --yes && \
@@ -13,4 +13,4 @@ RUN apt-get update && \
   pip install scapy && \
   pip install matplotlib
 RUN go get -u github.com/heistp/irtt/cmd/irtt
-ENTRYPOINT python programm.py
+# ENTRYPOINT python programm.py

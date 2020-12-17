@@ -30,8 +30,8 @@ def welcome_function():
     if option == 1:
         print("[I N F O] LOADING YOUR IP-DATA...")
         os.system("ipconfig")  # for windows
-        # os.system("ifconfig")  # for linux
-        # os.system("ip addr show lo")
+        os.system("ifconfig")  # for linux
+        os.system("ip addr show lo")
 
     print("[_N-M-T_] PLEASE INSERT NOW YOUR IP")
     return input("SERVER IP: ")
