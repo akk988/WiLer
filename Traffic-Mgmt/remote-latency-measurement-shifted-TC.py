@@ -14,11 +14,11 @@ print ('# python script is prepared on the remote nodes for measuring the latenc
 # Any tc role must be deleted before adding a new role
 
 subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "sudo", "tc", "qdisc", "delete", "dev", "wlan0", "root"])
-time.sleep(0.5)
+time.sleep(2.0)
 
 subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "sudo", "tc", "qdisc", "add", "dev", "wlan0", "root", "tbf", "rate", "10mbit", "burst", "32kbit", "latency", "50ms"])
 
-time.sleep(0.5)
+time.sleep(2.0)
 
 print ('Running the python script on Node 01 ')
 
@@ -29,7 +29,7 @@ subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostK
 
 print("Current Time = ", datetime.now().time())
 print("Waiting 5 seconds before running the next command")
-time.sleep(5.0)
+time.sleep(1.0)
 
 
 print ('Running the python script on Node 02 ')
@@ -38,10 +38,10 @@ print ('Running the python script on Node 02 ')
 
 subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.101", "sudo", "tc", "qdisc", "delete", "dev", "wlan0", "root"])
 
-time.sleep(0.5)
+time.sleep(2.0)
 subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.101", "sudo", "tc", "qdisc", "add", "dev", "wlan0", "root", "tbf", "rate", "10mbit", "burst", "32kbit", "latency", "200ms"])
 
-time.sleep(0.5)
+time.sleep(2.0)
 
 #result2 = subprocess.check_output('sshpass -p "fiveg4kmu" ssh -o StrictHostKeyChecking=no pi@192.168.0.101 "cd /home/pi/prio-TC-Tests && sudo python scapyLatencyEther.py > rem-lat-scap-nw-nt-rpi3.txt"', shell=True)
 #subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.101", "cd /home/pi/prio-TC-Tests && sudo python scapyLatencyEther.py > rem-lat-scap-nw-nt-rpi3.txt"])
