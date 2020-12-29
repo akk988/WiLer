@@ -18,6 +18,10 @@
 
 import subprocess
 
+global wN1_ip, wN2_ip
+wN1_ip = "192.168.0.103"
+wN2_ip = "192.168.0.101"
+
 print ('== Controller-Node starts . . . ==')
 print ('== Scanning for worker nodes !!! ==')
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
@@ -60,16 +64,16 @@ def internal_latency():
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-def bandwidth_wn():
+def bandwidth_wn_unlimited():
     print ('== Bandwidth Test ==')
 
     print ('== Starting iperf3 Server on cN ==')
-    try:
-        iperf = subprocess.Popen(["iperf3", "-s"],stdout=subprocess.PIPE)
-        iperfr = iperf.stdout.read()
-        #break
-    except ValueError:
-        print("iperf3 Server could be already running!")
+    #try:
+    #    iperf = subprocess.Popen(["iperf3", "-s"],stdout=subprocess.PIPE)
+    #    iperfr = iperf.stdout.read()
+    #    #break
+    #except ValueError:
+    #    print("iperf3 Server could be already running!")
     #p = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.104", "cd", "/home/akk/WiLer/Traffic-Mgmt", "&&", "./iperf3server.sh"],stdout=subprocess.PIPE)
     # TODO: find a better way to wait a Popen!
     #p2 = p.stdout.read()
@@ -77,6 +81,16 @@ def bandwidth_wn():
     #hli1 = hostlatin1.stdout.read()
     #hli1s = float(hli1[1:5])
     #print ('== Internal Latency from host 1 = ', hli1s)
+
+    #Delete old rules before measuring bandwidth
+    # delete all qdisc roles
+    
+    qd = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "sudo", "tc", "qdisc", "delete", "dev", "wlan0", "root"], stdout=subprocess.PIPE)
+    qdr = qd.stdout.read()
+    # delete all qdisc roles
+    qd = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.101", "sudo", "tc", "qdisc", "delete", "dev", "wlan0", "root"], stdout=subprocess.PIPE)
+    qdr = qd.stdout.read()
+    #TODO: handle reading mbps or kbps !!!!!!!!
 
     print ('== Starting iperf3 Client on wN1 ==')
     pa = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "cd", "/home/pi/Wiler", "&&", "sudo", "iperf3", "-c", "192.168.0.104", "-i","1","-t","10",">", "bw-in-1-client.txt"], stdout=subprocess.PIPE)
@@ -105,38 +119,60 @@ def calc_new_bandwidth():
     print ('== Calculatung the new network configs ==')
     medBW = (h1bw + h2bw)/2
     print ('== The middle Bandwidth is: ', medBW, " Mbps")
+    # The incriment is important, to insure the limit does not decrease continuosly
     global BWL
-    BWL = int(0.8 * medBW)#[0:3])
+    BWL = int((0.8 * medBW))#[0:3])
     print ('== The calculated large Bandwidth is: ', BWL, " Mbps")
     global BWM
-    BWM = int(0.5 * medBW)#[0:3])
+    BWM = int((0.5 * medBW))#[0:3])
     print ('== The calculated medium Bandwidth is: ', BWM, " Mbps")
     global BWS
-    BWS = int(0.3 * medBW)#[0:3])
+    BWS = int((0.3 * medBW))#[0:3])
     print ('== The calculated medium Bandwidth is: ', BWS, " Mbps")
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 def reconfig_bw_limit():
     print ('== Reconfiguring bandwidth limit on wN1 ==')
-# delete all qdisc roles
     BWLstr = str(BWL)
-    qd = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "sudo", "tc", "qdisc", "delete", "dev", "wlan0", "root"], stdout=subprocess.PIPE)
-    qdr = qd.stdout.read()
-    
     bwlimit1 = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "sudo", "tc", "qdisc", "add", "dev", "wlan0", "root", "tbf", "rate", "{}mbit".format(BWLstr), "burst", "32kbit", "latency", "200ms"], stdout=subprocess.PIPE)
     hli1 = bwlimit1.stdout.read()
     print ('== Bandwidth of host 1 setted to ', BWL, ' Mbps')
+    BWSstr = str(BWS)
+    bwlimit1 = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.101", "sudo", "tc", "qdisc", "add", "dev", "wlan0", "root", "tbf", "rate", "{}mbit".format(BWSstr), "burst", "32kbit", "latency", "200ms"], stdout=subprocess.PIPE)
+    hli1 = bwlimit1.stdout.read()
+    print ('== Bandwidth of host 2 setted to ', BWS, ' Mbps')
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
+def bandwidth_wn_limited():
+    print ('== Bandwidth Test (limited) ==')
 
+    #TODO: handle reading mbps or kbps !!!!!!!!
+
+    print ('== Starting iperf3 Client on wN1 ==')
+    pa = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "cd", "/home/pi/Wiler", "&&", "sudo", "iperf3", "-c", "192.168.0.104", "-i","1","-t","10",">", "bw-in-1-client.txt"], stdout=subprocess.PIPE)
+    pa2 = pa.stdout.read()
+    hostlatin1 = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "cd", "/home/pi/Wiler", "&&", "awk","'FNR == 8 {print $7}' bw-in-1-client.txt"], stdout=subprocess.PIPE)
+    hli1 = hostlatin1.stdout.read()
+    global h1bw
+    h1bw = float(hli1[0:4])
+    print ('== Bandwidth from host 1 = ', h1bw, " Mbps")
+
+    print ('== Starting iperf3 Client on wN2 ==')
+    pb = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.101", "cd", "/home/pi/Wiler", "&&", "sudo", "iperf3", "-c", "192.168.0.104", "-i","1","-t","10",">", "bw-in-2-client.txt"], stdout=subprocess.PIPE)
+    pb2 = pb.stdout.read()
+    hostlatin2 = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.101", "cd", "/home/pi/Wiler", "&&", "awk","'FNR == 8 {print $7}' bw-in-2-client.txt"], stdout=subprocess.PIPE)
+    hli2 = hostlatin2.stdout.read()
+    global h2bw
+    h2bw = float(hli2[0:4])
+    print ('== Bandwidth from host 2 = ', h2bw, " Mbps")
 
 
 hostnames()
 internal_latency()
-bandwidth_wn()
+bandwidth_wn_unlimited()
 calc_new_bandwidth()
 reconfig_bw_limit()
-bandwidth_wn()
+bandwidth_wn_limited()
 
 #hostname = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "cd", "/home/pi/Wiler", "&&", "awk","'NR>1{exit} {print $2}' lat.txt"], stdout=subprocess.PIPE)
 
