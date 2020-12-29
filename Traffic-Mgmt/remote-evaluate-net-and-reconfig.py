@@ -105,17 +105,38 @@ def calc_new_bandwidth():
     print ('== Calculatung the new network configs ==')
     medBW = (h1bw + h2bw)/2
     print ('== The middle Bandwidth is: ', medBW, " Mbps")
-    BWL = 0.8 * medBW
+    global BWL
+    BWL = int(0.8 * medBW)#[0:3])
     print ('== The calculated large Bandwidth is: ', BWL, " Mbps")
-    BWM = 0.3 * medBW
+    global BWM
+    BWM = int(0.5 * medBW)#[0:3])
     print ('== The calculated medium Bandwidth is: ', BWM, " Mbps")
+    global BWS
+    BWS = int(0.3 * medBW)#[0:3])
+    print ('== The calculated medium Bandwidth is: ', BWS, " Mbps")
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
+def reconfig_bw_limit():
+    print ('== Reconfiguring bandwidth limit on wN1 ==')
+# delete all qdisc roles
+    BWLstr = str(BWL)
+    qd = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "sudo", "tc", "qdisc", "delete", "dev", "wlan0", "root"], stdout=subprocess.PIPE)
+    qdr = qd.stdout.read()
+    
+    bwlimit1 = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "sudo", "tc", "qdisc", "add", "dev", "wlan0", "root", "tbf", "rate", "{}mbit".format(BWLstr), "burst", "32kbit", "latency", "200ms"], stdout=subprocess.PIPE)
+    hli1 = bwlimit1.stdout.read()
+    print ('== Bandwidth of host 1 setted to ', BWL, ' Mbps')
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+
+
 hostnames()
 internal_latency()
 bandwidth_wn()
 calc_new_bandwidth()
-
+reconfig_bw_limit()
+bandwidth_wn()
 
 #hostname = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "cd", "/home/pi/Wiler", "&&", "awk","'NR>1{exit} {print $2}' lat.txt"], stdout=subprocess.PIPE)
 
