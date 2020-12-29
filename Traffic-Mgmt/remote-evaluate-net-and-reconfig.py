@@ -20,6 +20,9 @@ import subprocess
 
 print ('== Controller-Node starts . . . ==')
 print ('== Scanning for worker nodes !!! ==')
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------#
+hostnameCommand = "sudo sshpass -p fiveg4kmu ssh -o StrictHostKeyChecking=no pi@192.168.0.103 sudo hostname"
+#"sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "sudo", "hostname"
 
 hostname = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "sudo", "hostname"], stdout=subprocess.PIPE)
 hn = hostname.stdout.read()
@@ -28,6 +31,7 @@ hostname = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "
 hn = hostname.stdout.read()
 print ('== wN available:', hn)
 # TODO: Change hostname on each wN
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 print ('===== Test 1: Latency and Bandwidth from each worker node ======')
 print ('== Internal Latency Test ==')
@@ -49,10 +53,17 @@ hli2 = hostlatin2.stdout.read()
 hli2s = float(hli2[1:5])
 print ('== Internal Latency from host 2 = ', hli2s)
 # TODO: external latency test --> ping google
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 print ('== Bandwidth Test ==')
 
-p = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "cd", "/home/pi/Wiler", "&&", "sudo", "./iperf3server.sh"],stdout=subprocess.PIPE)
+print ('== Starting iperf3 Server on cN ==')
+try:
+    p = subprocess.Popen(["iperf3", "-s"],stdout=subprocess.PIPE)
+    #break
+except ValueError:
+    print("iperf3 Server could be already running!")
+#p = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.104", "cd", "/home/akk/WiLer/Traffic-Mgmt", "&&", "./iperf3server.sh"],stdout=subprocess.PIPE)
 # TODO: find a better way to wait a Popen!
 #p2 = p.stdout.read()
 #hostlatin1 = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "cd", "/home/pi/Wiler", "&&", "awk","'FNR == 8 {print $7}' bw-in-1-server.txt"], stdout=subprocess.PIPE)
@@ -60,14 +71,31 @@ p = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictH
 #hli1s = float(hli1[1:5])
 #print ('== Internal Latency from host 1 = ', hli1s)
 
-p = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.101", "cd", "/home/pi/Wiler", "&&", "sudo", "iperf3", "-c", "192.168.0.103", "-i","1","-t","10",">", "bw-in-2-client.txt"], stdout=subprocess.PIPE)
+print ('== Starting iperf3 Client on wN1 ==')
+p = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "cd", "/home/pi/Wiler", "&&", "sudo", "iperf3", "-c", "192.168.0.104", "-i","1","-t","10",">", "bw-in-1-client.txt"], stdout=subprocess.PIPE)
+p2 = p.stdout.read()
+hostlatin2 = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "cd", "/home/pi/Wiler", "&&", "awk","'FNR == 8 {print $7}' bw-in-1-client.txt"], stdout=subprocess.PIPE)
+hli2 = hostlatin2.stdout.read()
+hli2s = float(hli2[0:4])
+print ('== Bandwidth from host 1 = ', hli2s)
+
+print ('== Starting iperf3 Client on wN2 ==')
+p = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.101", "cd", "/home/pi/Wiler", "&&", "sudo", "iperf3", "-c", "192.168.0.104", "-i","1","-t","10",">", "bw-in-2-client.txt"], stdout=subprocess.PIPE)
 p2 = p.stdout.read()
 
 hostlatin2 = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.101", "cd", "/home/pi/Wiler", "&&", "awk","'FNR == 8 {print $7}' bw-in-2-client.txt"], stdout=subprocess.PIPE)
 hli2 = hostlatin2.stdout.read()
-hli2s = float(hli2[1:5])
+hli2s = float(hli2[0:4])
 print ('== Bandwidth from host 2 = ', hli2s)
 # TODO: external latency test --> ping google
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+print ('== Bandwidth Configuration ==')
+
+print ('== Calculatung the new network configs ==')
+
+
 
 #hostname = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "cd", "/home/pi/Wiler", "&&", "awk","'NR>1{exit} {print $2}' lat.txt"], stdout=subprocess.PIPE)
 
