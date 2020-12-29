@@ -52,7 +52,22 @@ print ('== Internal Latency from host 2 = ', hli2s)
 
 print ('== Bandwidth Test ==')
 
+p = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "cd", "/home/pi/Wiler", "&&", "sudo", "./iperf3server.sh"],stdout=subprocess.PIPE)
+# TODO: find a better way to wait a Popen!
+#p2 = p.stdout.read()
+#hostlatin1 = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "cd", "/home/pi/Wiler", "&&", "awk","'FNR == 8 {print $7}' bw-in-1-server.txt"], stdout=subprocess.PIPE)
+#hli1 = hostlatin1.stdout.read()
+#hli1s = float(hli1[1:5])
+#print ('== Internal Latency from host 1 = ', hli1s)
 
+p = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.101", "cd", "/home/pi/Wiler", "&&", "sudo", "iperf3", "-c", "192.168.0.103", "-i","1","-t","10",">", "bw-in-2-client.txt"], stdout=subprocess.PIPE)
+p2 = p.stdout.read()
+
+hostlatin2 = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.101", "cd", "/home/pi/Wiler", "&&", "awk","'FNR == 8 {print $7}' bw-in-2-client.txt"], stdout=subprocess.PIPE)
+hli2 = hostlatin2.stdout.read()
+hli2s = float(hli2[1:5])
+print ('== Bandwidth from host 2 = ', hli2s)
+# TODO: external latency test --> ping google
 
 #hostname = subprocess.Popen(["sudo","sshpass", "-p", "fiveg4kmu", "ssh", "-o", "StrictHostKeyChecking=no", "pi@192.168.0.103", "cd", "/home/pi/Wiler", "&&", "awk","'NR>1{exit} {print $2}' lat.txt"], stdout=subprocess.PIPE)
 
