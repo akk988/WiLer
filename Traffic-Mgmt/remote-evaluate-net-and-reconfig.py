@@ -1,16 +1,11 @@
-## sshpass
-# Install sshpass on the controller node
-# Create a file for passwords (sshpass -f) / or use directly (sshpass -p) 
-# If sshpass doesn't work: Then generate and compy ssh keys as follows
-# on controller node $ ssh-keygen
-# copy to the node to be controlled: $ ssh-copy-id -i ~/.ssh/id_rsa.pub pi@192.168.0.101
+## Requirements
+# ssh, sshpass, iperf3, scapy
+# Install sshpass on the controller node (cN) and create a file for passwords (sshpass -f) / or use directly (sshpass -p). If sshpass doesn't work: Then generate and copy ssh keys as follows
+# SSH-Keygen: on controller node $ ssh-keygen copy to the node to be controlled: $ ssh-copy-id -i ~/.ssh/id_rsa.pub pi@192.168.0.101
 #### sshpass
-## The Problem with sshpass: https://askubuntu.com/questions/282319/how-to-use-sshpass --> -o StrictHostKeyChecking=no
-##Your error-code may differ and looking at the code linked above may give you some insight.
-##If your issue is an invalid host-key you should think twice about overriding the error with a CLI option. Your machine could be compromised or you may be subject to a MITM attack! If you are 100% certain that this is not the case and if you have no means to keep the verified host-keys up-to date, you can use a command like this:
 
 # This script does following: 
-# 1. ssh to two worker nodes and cd to the path, where scapy and iperf3 results must be saved.
+# 1. ssh to two worker nodes (wNs) and cd to the path, where scapy and iperf3 results must be saved.
 # 2. run a first test for latency and bandwidth and save the results in lat1.txt and bw2.txt
 # 3. calculate the new bandwidth (later also latency) for each wN
 # 4. apply new qdisc config for each wN
@@ -26,12 +21,10 @@ wNpass = "fiveg4kmu"
 SHCK = "StrictHostKeyChecking=no"
 wNpath = "/home/pi/Wiler"
 
-print ('== Controller-Node starts . . . ==')
-print ('== Scanning for worker nodes !!! ==')
+print ('==== Controller-Node starts . . . ====')
+print ('==== Scanning for worker nodes .. ====')
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 def hostnames():
-    #hostnameCommand = "sudo sshpass -p fiveg4kmu ssh -o StrictHostKeyChecking=no pi@ sudo hostname"
-    #"sudo","sshpass", "-p", wNpass, "ssh", "-o", SHCK, wN1_ip, "sudo", "hostname"
 
     hostname = subprocess.Popen(["sudo","sshpass", "-p", wNpass, "ssh", "-o", SHCK, wN1_ip, "sudo", "hostname"], stdout=subprocess.PIPE)
     hn = hostname.stdout.read()
@@ -40,11 +33,9 @@ def hostnames():
     hn = hostname.stdout.read()
     print ('== wN available:', hn)
     # TODO: Change hostname on each wN
-
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-
-print ('===== Test 1: Latency and Bandwidth from each worker node ======')
+print ('===== Measureming Latency and Bandwidth from each wN ======')
 
 def internal_latency():
     print ('== Internal Latency Test ==')
@@ -59,13 +50,22 @@ def internal_latency():
 
     p = subprocess.Popen(["sudo","sshpass", "-p", wNpass, "ssh", "-o", SHCK, wN2_ip, "cd", wNpath, "&&", "sudo", "python", "scapyLatencyEther.py", ">", "lat-in-2.txt"], stdout=subprocess.PIPE)
     p2 = p.stdout.read()
-
     hostlatin2 = subprocess.Popen(["sudo","sshpass", "-p", wNpass, "ssh", "-o", SHCK, wN2_ip, "cd", wNpath, "&&", "awk","'NR>1{exit} {print $2}' lat-in-2.txt"], stdout=subprocess.PIPE)
     hli2 = hostlatin2.stdout.read()
     hli2s = float(hli2[1:5])
     print ('== Internal Latency from host 2 = ', hli2s, " Sec.")
-    # TODO: external latency test --> ping google
+    
 
+def external_latency():
+    # TODO: external latency test --> ping google
+    # either ping google directly or prepare a script on each wN
+    px = subprocess.Popen(["sudo","sshpass", "-p", wNpass, "ssh", "-o", SHCK, wN1_ip, "cd", wNpath, "&&", "sudo", "ping", "8.8.8.8", ">", "ex-lat-in-1.txt"],stdout=subprocess.PIPE)
+    # TODO: find a better way to wait a Popen!
+    px2 = px.stdout.read()
+    hostxlatin1 = subprocess.Popen(["sudo","sshpass", "-p", wNpass, "ssh", "-o", SHCK, wN1_ip, "cd", wNpath, "&&", "awk","'NR>1{exit} {print $2}' ex-lat-in-1.txt"], stdout=subprocess.PIPE)
+    hxli1 = hostxlatin1.stdout.read()
+    hxli1s = float(hxli1[1:5])
+    print ('== External Latency from host 1 = ', hxli1s, " Sec.")
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 def bandwidth_wn_unlimited():
@@ -173,6 +173,7 @@ def bandwidth_wn_limited():
 
 hostnames()
 internal_latency()
+external_latency()
 bandwidth_wn_unlimited()
 calc_new_bandwidth()
 reconfig_bw_limit()
