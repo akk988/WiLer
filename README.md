@@ -8,3 +8,6 @@ The scapy-Latency is a module for higher latency calculation at the xxxxx? layer
 
 # socket-Latency
 Two programs in Python were prepared to send and receive packtes for each other, either on the same host or on two different ones
+
+# Remote-Network-Evaluation
+In a system consist of a control node (cN) and several worker nodes (wN), the network throughput can be measured on each wN from the cN. The scripts for measuring the latency and the bandwidth of the network are prepared for each wN. The cN can call these scripts over SSH and get the results. The cN analyse the results of the network properties for each device and make desicion on reconfiguring the relevant wNs based on the changed network situation, in addition it consider the defined priorities for each wN, regarding data rate the time sensitivity of the running applications. 
