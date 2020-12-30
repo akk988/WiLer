@@ -21,11 +21,12 @@ wNpass = "fiveg4kmu"
 SHCK = "StrictHostKeyChecking=no"
 wNpath = "/home/pi/Wiler"
 
-print ('==== Controller-Node starts . . . ====')
-print ('==== Scanning for worker nodes .. ====')
+
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 def hostnames():
-
+    print ('~~~~~~+ Methode hostnames starts +~~~~~~~')
+    print ('==== Controller-Node starts . . . ====')
+    print ('==== Scanning for worker nodes .. ====')
     hostname = subprocess.Popen(["sudo","sshpass", "-p", wNpass, "ssh", "-o", SHCK, wN1_ip, "sudo", "hostname"], stdout=subprocess.PIPE)
     hn = hostname.stdout.read()
     print ('== wN available:', hn)
@@ -38,6 +39,7 @@ def hostnames():
 print ('===== Measureming Latency and Bandwidth from each wN ======')
 
 def internal_latency():
+    print ('~~~~~~+ Methode internal_latency starts +~~~~~~~')
     print ('== Internal Latency Test ==')
     # run scapy script on host 
     p = subprocess.Popen(["sudo","sshpass", "-p", wNpass, "ssh", "-o", SHCK, wN1_ip, "cd", wNpath, "&&", "sudo", "python", "scapyLatencyEther.py", ">", "lat-in-1.txt"],stdout=subprocess.PIPE)
@@ -57,6 +59,8 @@ def internal_latency():
     
 
 def external_latency():
+    print ('~~~~~~+ Methode internal_latency starts +~~~~~~~')
+    print ('== Internal Latency Test ==')
     # TODO: external latency test --> ping google
     # either ping google directly or prepare a script on each wN
     px = subprocess.Popen(["sudo","sshpass", "-p", wNpass, "ssh", "-o", SHCK, wN1_ip, "cd", wNpath, "&&", "sudo", "ping", "8.8.8.8", ">", "ex-lat-in-1.txt"],stdout=subprocess.PIPE)
@@ -65,6 +69,14 @@ def external_latency():
     hostxlatin1 = subprocess.Popen(["sudo","sshpass", "-p", wNpass, "ssh", "-o", SHCK, wN1_ip, "cd", wNpath, "&&", "awk","'NR>1{exit} {print $2}' ex-lat-in-1.txt"], stdout=subprocess.PIPE)
     hxli1 = hostxlatin1.stdout.read()
     hxli1s = float(hxli1[1:5])
+    print ('== External Latency from host 1 = ', hxli1s, " Sec.")
+
+    pxb = subprocess.Popen(["sudo","sshpass", "-p", wNpass, "ssh", "-o", SHCK, wN2_ip, "cd", wNpath, "&&", "sudo", "ping", "8.8.8.8", ">", "ex-lat-in-1.txt"],stdout=subprocess.PIPE)
+    # TODO: find a better way to wait a Popen!
+    pxb2 = pxb.stdout.read()
+    hostbxlatin1 = subprocess.Popen(["sudo","sshpass", "-p", wNpass, "ssh", "-o", SHCK, wN2_ip, "cd", wNpath, "&&", "awk","'NR>1{exit} {print $2}' ex-lat-in-1.txt"], stdout=subprocess.PIPE)
+    hbxli1 = hostbxlatin1.stdout.read()
+    hbxli1s = float(hbxli1[1:5])
     print ('== External Latency from host 1 = ', hxli1s, " Sec.")
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
