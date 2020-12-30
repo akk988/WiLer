@@ -81,6 +81,7 @@ def external_latency():
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 def bandwidth_wn_unlimited():
+    print ('~~~~~~+ Methode bandwidth_wn_unlimited starts +~~~~~~~')
     print ('== Bandwidth Test ==')
 
     print ('== Starting iperf3 Server on cN ==')
@@ -132,6 +133,7 @@ def bandwidth_wn_unlimited():
 print ('== Bandwidth Configuration ==')
 
 def calc_new_bandwidth():
+    print ('~~~~~~+ Methode calc_new_bandwidth starts +~~~~~~~')
     print ('== Calculatung the new network configs ==')
     medBW = (h1bw + h2bw)/2
     print ('== The middle Bandwidth is: ', medBW, " Mbps")
@@ -148,6 +150,7 @@ def calc_new_bandwidth():
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 def reconfig_bw_limit():
+    print ('~~~~~~+ Methode reconfig_bw_limit starts +~~~~~~~')
     print ('== Reconfiguring bandwidth limit on wN1 ==')
     BWLstr = str(BWL)
     bwlimit1 = subprocess.Popen(["sudo","sshpass", "-p", wNpass, "ssh", "-o", SHCK, wN1_ip, "sudo", "tc", "qdisc", "add", "dev", "wlan0", "root", "tbf", "rate", "{}mbit".format(BWLstr), "burst", "32kbit", "latency", "200ms"], stdout=subprocess.PIPE)
@@ -160,6 +163,7 @@ def reconfig_bw_limit():
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 def bandwidth_wn_limited():
+    print ('~~~~~~+ Methode bandwidth_wn_limited starts +~~~~~~~')
     print ('== Bandwidth Test (limited) ==')
 
     #TODO: handle reading mbps or kbps !!!!!!!!
