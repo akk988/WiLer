@@ -1,0 +1,39 @@
+How to work with node?
+
+-Install on PC:
+  Download: https://nodejs.org/en/
+  Follow the Installation-Guide
+
+-Install on Docker:
+  FROM node
+
+-Check it's availability:
+  node --version
+
+-Create a Node-App:
+  mkdir first-App
+  open your IDE
+  create: app.js
+
+  -Modules:
+    app.js is the main-module (The highest parent)
+    From here you can call the other modules (The children)
+    If you want to use the modules, you have to export them
+    eg.:
+      app.js:
+      var add = require('./Modules/module_one');
+      console.log(add);
+
+      module_one.js:
+      function addieren(wert){
+        console.log(5 + wert);
+      }
+      module.exports.add = addieren;
+
+      console:
+      PS C:\new-app> node .\app.js
+      { add: [Function: addieren] }
+
+    
+
+
