@@ -4,7 +4,7 @@ import threading
 HEADER = 64
 PORT = 5050
 # SERVER = socket.gethostbyname(socket.gethostname())
-SERVER = '192.168.0.100'
+SERVER = '192.168.0.104'
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MSG = "!DISCONNECT"
