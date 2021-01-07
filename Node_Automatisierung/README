@@ -34,6 +34,24 @@ How to work with node?
       PS C:\new-app> node .\app.js
       { add: [Function: addieren] }
 
+-Working with  node package manager (npm)
+  CONSOLE: npm init --yes OR npm init (an clicking through the Installation)
+  It creates a package.json - File, where the Dependencies of the project are stored.
+  If you Download a package.json - File, you only have to type in the Terminal (in the package.json - File - Directory): npm install
+    --> It installs automatically all Dependencies.
+
+-Installing (globally) a Test Server: Nodemon      
+  CONSOLE: npm install -g nodemon
+  CONSOLE: cd into app.js directory
+  CONSOLE: nodemon server
+  It watches automatically at the files for changes
+
+-Building a REST API with the express - Framework
+  Creating a new directory
+  Using the (npm)
+  type in the terminal: npm init --yes | to create a package.json - File
+  Install express: npm i express
+
     
 
 

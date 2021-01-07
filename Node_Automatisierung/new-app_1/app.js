@@ -32,6 +32,16 @@
 //     else console.log('Result', files);
 //   });
 
+// Working with File-Streams
+// const fs = require('fs');
+
+// const readSteam = fs.createReadStream('./docs/blog1.txt',{encoding: 'utf-8'});
+
+// readSteam.on('data', (chunk) =>{
+//   console.log('---------NEW CHUNK-------');
+//   console.log(chunk);
+// });
+
 // -----------------------------------------------------------
 
 // Wokring with events
@@ -63,20 +73,49 @@
 
 
 // Creating a HTTP - Server
+// const http = require('http');
+
+// const server = http.createServer((req, res) => {
+// console.log(req.url, req.method);
+//   if (req.url === '/'){
+//     res.setHeader('Conten-Type', 'text/html');
+//     res.write('<p>Hello</p>');
+//     res.end();
+//   }
+
+//   if(req.url === '/api/courses'){
+//     res.write(JSON.stringify([1, 2, 3]));
+//     res.end();
+//   }
+// }); //server has inside a Event-Emitter
+
+// server.listen(3000);
+
+// console.log('Listening on port 3000...')
+
+//---- 
+
+// Sending a HTMl -Page to the Browser
 const http = require('http');
+const fs = require('fs');
 
 const server = http.createServer((req, res) => {
+console.log(req.url, req.method);
   if (req.url === '/'){
-    res.write('Hello');
+    res.setHeader('Conten-Type', 'text/html');
+    fs.readFile('./views/index.html', (err, data) => {
+      if (err){
+        console.log(err);
+        res.end();
+      } else {
+        res.end(data);
+      }
+    });
+  } else {
     res.end();
   }
+});
 
-  if(req.url === '/api/courses'){
-    res.write(JSON.stringify([1, 2, 3]));
-    res.end();
-  }
-}); //server has inside a Event-Emitter
-
-server.listen(3000);
-
-console.log('Listening on port 3000...')
+server.listen(3000, () =>{
+  console.log('Listening on port 3000...');
+});

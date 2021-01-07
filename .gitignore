@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# The Node_Modules - Folder
+Node_Automatisierung/new-app_2/node_modules
+Node_Automatisierung/new-app_3/network-app/node_modules
