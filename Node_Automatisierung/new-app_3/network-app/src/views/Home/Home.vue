@@ -18,7 +18,7 @@
           </v-row>
 
           <v-row cols="12">
-            <v-btn color="primary" class="ma-2">
+            <v-btn color="primary" class="ma-2" @click="fetchData()">
               GET
             </v-btn>
             <v-btn color="warning" class="ma-2">
@@ -31,6 +31,9 @@
             <p></p>
           </v-row>
         </v-col>
+        <v-col>
+          <p> {{getAllData}} </p>
+        </v-col>
       </v-card-text>
       <v-card-actions>
         
@@ -41,7 +44,7 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'Home',
   components: {
@@ -55,5 +58,18 @@ export default {
       ]
     }
   },
+  methods: {
+    fetchData(){
+      this.$store.dispatch('allMessuringData');
+    }
+  },
+
+  computed: {
+    ...mapGetters(['getMessuringData']),
+    getAllData(){
+      return this.getMessuringData;
+  }
+  }
+
 }
 </script>
