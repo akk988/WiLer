@@ -1,31 +1,41 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import MessuringData from '@/services/messuring/messuring';
+import MeasuringData from '@/services/measuring/measuring';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    messuringData: {},
+    measuringData: {},
   },
   getters: {
-    getMessuringData: (state) => {
-      return state.messuringData;
+    getMeasuringData: (state) => {
+      return state.measuringData;
     }
   },
   mutations: {
-    UPDATING_MESSURING_DATA: (state, payload) => {
-      state.messuringData = payload;
+    UPDATING_MEASURING_DATA: (state, payload) => {
+      console.log("UPDATING_MEASURING_DATA", payload)
+      state.measuringData = payload;
     },
   },
 
 
   actions: {
 
-    async allMessuringData(context, payload){
+    async allMeasuringData(context, payload){
       console.log('Receiving Products: ');
-      return await MessuringData.getAllData().then(response => {
-        context.commit('UPDATING_MESSURING_DATA', response.data);
+      return await MeasuringData.getAllData().then(response => {
+        console.log("....-",response);
+        context.commit('UPDATING_MEASURING_DATA', response.data);
+      });
+    },
+
+    async allRestData(context, payload){
+      console.log('Receiving Data: ');
+      return await MeasuringData.ownRestApi().then(response => {
+        console.log("....-",response);
+        context.commit('UPDATING_MEASURING_DATA', response.data);
       });
     },
 

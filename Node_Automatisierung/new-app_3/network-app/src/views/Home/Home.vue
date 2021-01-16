@@ -9,7 +9,7 @@
       </v-card-title>
       <v-card-text class="mt-16 justify-center">
         <p>
-          Adding new featurs for testing...
+          Adding new features for testing...
         </p>
 
         <v-col>
@@ -24,6 +24,11 @@
             <v-btn color="warning" class="ma-2">
               POST
             </v-btn>
+            <v-spacer></v-spacer>
+            
+            <v-btn color="primary" class="ma-2" @click="getRestApi()">
+              own API
+            </v-btn>
           </v-row>
 
           <v-row cols="12" class="ma-4">
@@ -32,7 +37,9 @@
           </v-row>
         </v-col>
         <v-col>
-          <p> {{getAllData}} </p>
+          <p>id: {{ getAllData.id }}</p>
+          <p>name: {{ getAllData.name }}</p>
+          <!--          <p v-if="getAllData.length >= 0"> {{ getAllData.id }} </p>-->
         </v-col>
       </v-card-text>
       <v-card-actions>
@@ -55,19 +62,22 @@ export default {
         {name: 'Name', input: ''},
         {name: 'Number', input: ''},
         {name: 'Description', input: ''},
-      ]
+      ],
     }
   },
   methods: {
     fetchData(){
-      this.$store.dispatch('allMessuringData');
+      this.$store.dispatch('allMeasuringData');
+    },
+    getRestApi (){
+      this.$store.dispatch('allRestData');
     }
   },
 
   computed: {
-    ...mapGetters(['getMessuringData']),
+    ...mapGetters(['getMeasuringData']),
     getAllData(){
-      return this.getMessuringData;
+      return this.getMeasuringData;
   }
   }
 
