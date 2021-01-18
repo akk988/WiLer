@@ -1,7 +1,8 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const Measuring = require('./Modules/database.schema');
 
-// express App
-
+// express App with mongoose
 const app = express();
 
 // listen for requests
@@ -9,9 +10,10 @@ app.listen(3000, () => console.log('Listening on port 3000...'));
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-token");
   next();
 });
+app.use(express.json());
 
 app.get('/', (req,res) => {
   // res.send('<p>Home</p>');
@@ -23,9 +25,34 @@ app.get('/about', (req,res) => {
 
 // Own API - call
 app.get('/posts', (req,res) => {
-  let restData = {id: 10, name: "Heinz"};
-  res.send(JSON.stringify({id: 10, name: 12}));
+  res.send({id: 10, name: "Roberto Carlos"});
+    //JSON.stringify({id: 10, name: 12});
 });
+
+//DB-Test
+app.get('/measuringdata', async (req,res) => {
+  try {
+      const newMeasuringData = await Measuring.find();
+      res.send(newMeasuringData);
+  } catch (err){
+      res.status(500).json({message: err.message});
+  }
+});
+
+app.post('/postmeasuringdata', async (req,res) => {
+    const entryData = new Measuring({
+        name: req.body.name,
+        description: req.body.description,
+    })
+    try {
+        const newMeasuringData = await entryData.save();
+        res.status(201).json(newMeasuringData);
+    } catch (err){
+        res.status(400).json({message: err.message});
+    }
+});
+
+
 
 // redirect
 app.get('/', (req,res) => {

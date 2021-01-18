@@ -18,16 +18,19 @@
           </v-row>
 
           <v-row cols="12">
-            <v-btn color="primary" class="ma-2" @click="fetchData()">
-              GET
+            <v-btn color="primary" class="ma-2" @click="getPlaceHolder()">
+              GET Placeholder
             </v-btn>
-            <v-btn color="warning" class="ma-2">
-              POST
+            <v-btn color="primary" class="ma-2" @click="getRestApi()">
+              Get own API
             </v-btn>
             <v-spacer></v-spacer>
-            
-            <v-btn color="primary" class="ma-2" @click="getRestApi()">
-              own API
+
+            <v-btn color="primary" class="ma-2" @click="postDataIntoDB()">
+              Post to DB
+            </v-btn>
+            <v-btn color="primary" class="ma-2" @click="getDataFromDB()">
+              get from db
             </v-btn>
           </v-row>
 
@@ -37,8 +40,9 @@
           </v-row>
         </v-col>
         <v-col>
-          <p>id: {{ getAllData.id }}</p>
-          <p>name: {{ getAllData.name }}</p>
+          <p>{{ getAllData }}</p>
+<!--          <p>id: {{ getAllData.id }}</p>-->
+<!--          <p>name: {{ getAllData.name }}</p>-->
           <!--          <p v-if="getAllData.length >= 0"> {{ getAllData.id }} </p>-->
         </v-col>
       </v-card-text>
@@ -59,19 +63,25 @@ export default {
   data() {
     return {
       textfields: [
-        {name: 'Name', input: ''},
-        {name: 'Number', input: ''},
-        {name: 'Description', input: ''},
+        {name: 'name', input: ''},
+        // {name: 'Number', input: ''},
+        {name: 'description', input: ''},
       ],
     }
   },
   methods: {
-    fetchData(){
+    getPlaceHolder(){
       this.$store.dispatch('allMeasuringData');
     },
     getRestApi (){
       this.$store.dispatch('allRestData');
-    }
+    },
+    getDataFromDB (){
+      this.$store.dispatch('getFromDataBase');
+    },
+    postDataIntoDB (){
+      this.$store.dispatch('postIntoDataBase', this.textfields);
+    },
   },
 
   computed: {
