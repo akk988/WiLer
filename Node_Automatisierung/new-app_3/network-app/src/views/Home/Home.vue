@@ -1,16 +1,28 @@
 <template>
-  <div >
-
+  <div>
     <v-card color="grey lighten-1" class="ma-4 justify-center">
       <v-card-title class="justify-center">
         <h1>
           Hello User! 
         </h1>
       </v-card-title>
-      <v-card-text class="mt-16 justify-center">
-        <p>
-          Adding new features for testing...
-        </p>
+      <v-card-text class="mt-16">
+        <v-row class="ma-5 justify-center">
+          <v-btn class="green" dark  @click="$router.push('/measuringtable')">
+            <v-icon left>
+              mdi-table
+            </v-icon>
+            <span>
+              DataTable
+            </span>
+          </v-btn>
+        </v-row>
+        <v-row class="ma-5 justify-center">
+          <p>
+            Adding new features for testing...
+          </p>
+        </v-row>
+
 
         <v-col>
           <v-row class="ma-2" cols="12" lg="4" sm="6" v-for="(item,idx) in textfields" :key="idx">

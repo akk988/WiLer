@@ -32,3 +32,9 @@ Docker credentials
 Python Socket Tutorial
   https://www.youtube.com/watch?v=3QiPPX-KeSc&t=955s
 ----------------------------------------------------------------------------------
+
+Installing Moduletool without Docker:
+-Python3 is required
+-pip3 install --pre scapy[basic]
+-pip3 install -U matplotlib
+

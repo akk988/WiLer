@@ -24,6 +24,11 @@ const routes = [
     name: 'Contact',
     component: () => import('../views/Navigation/Footer/Contact/Contact')
   },
+  {
+    path: '/measuringtable',
+    name: 'MeasuringTable',
+    component: () => import('../views/MeasuringTable/MeasuringTable.vue')
+  },
 ]
 
 const router = new VueRouter({
