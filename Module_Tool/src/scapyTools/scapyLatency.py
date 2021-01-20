@@ -12,7 +12,8 @@ def startFunction():
     # dest = "192.168.0.105"
     pkt = []
     for i in range(1, 50):
-        a = IP(dst=dest) / TCP(flags="S", seq=i, sport=65000, dport=55556)
+        #a = IP(dst=dest) / TCP(flags="S", seq=i, sport=65000, dport=55556)
+        a = IP(dst=dest)/ICMP()
         pkt.append(a)
 
     ans, unans = sr(pkt, filter="host {0}".format(dest), inter=0, timeout=1)
