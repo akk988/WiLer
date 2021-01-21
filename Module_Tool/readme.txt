@@ -38,3 +38,5 @@ Installing Moduletool without Docker:
 -pip3 install --pre scapy[basic]
 -pip3 install -U matplotlib
 
+run as sudo!!!!
+

@@ -26,7 +26,7 @@
 
         <v-col>
           <v-row class="ma-2" cols="12" lg="4" sm="6" v-for="(item,idx) in textfields" :key="idx">
-            <v-text-field clearable v-model="item.input" :label="item.name"/>
+            <v-text-field color="#CA3312" clearable v-model="item.input" :label="item.name"/>
           </v-row>
 
           <v-row cols="12">
