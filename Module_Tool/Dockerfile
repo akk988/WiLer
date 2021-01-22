@@ -1,4 +1,4 @@
-# For AMD64 
+# For ARMV6
 
 FROM python:latest
 WORKDIR /usr/src/app
@@ -18,4 +18,4 @@ RUN apt-get install wget && apt-get install git && \
   GOPATH=/tmp go get -u github.com/heistp/irtt/cmd/irtt && \
   cp /tmp/bin/irtt /usr/local/go/bin
 ENV PATH="$PATH:/usr/local/go/bin"
-# ENTRYPOINT python programm.py
+ENTRYPOINT python programm.py

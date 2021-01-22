@@ -20,9 +20,9 @@ To ADD a new Network-Tool into NETWORK - MODULE - TOOL:
 
 ----------------------------------------------------------------------------------
 Docker credentials
-  # docker build -t moduletool_X .
+  # docker build -t moduletool_s .
   # -p 172.17.192.1:5050:5050/tcp
-  # docker run -it -p 192.168.178.25:5050:5050/tcp --name moduletool_5 moduletool_4 bash
+  # docker run -it -p 192.168.241.2:5050:5050/tcp --name moduletool_x moduletool_x bash
   # docker run -it -p 192.168.178.25:5050:5050/tcp moduletool_1 bash
 
   # docker start -i moduletool_X
