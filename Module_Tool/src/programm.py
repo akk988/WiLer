@@ -4,6 +4,7 @@ from socketTools import socketTrafficMain as stm
 from scapyTools import tcpTraceRouteGraph as ttrg
 from scapyTools import scapyLatency as sl
 from scapyTools import latencyGraph as lg
+from IRTT_config import IRTTMain
 
 # 1.) ^^Import above this a new tool^^
 
@@ -60,16 +61,16 @@ while True:
         stm.mainFunction()
     elif choice == 2:
         print("[I N F O] YOU HAVE CHOSEN IRTT\n\n")
-        print("[I N F O] CURRENTLY NOT AVAILABLE ... COMMING SOON")
+        IRTTMain.mainFunction()
     elif choice == 3:
         print("[I N F O] YOU HAVE CHOSEN Scapy\n\n")
-        print("[I N F O] CURRENTLY NOT AVAILABLE ... COMMING SOON")
+        print("[I N F O] CURRENTLY NOT AVAILABLE ... COMING SOON")
     elif choice == 4:
         print("[I N F O] YOU HAVE CHOSEN Ostinato\n\n")
-        print("[I N F O] CURRENTLY NOT AVAILABLE ... COMMING SOON")
+        print("[I N F O] CURRENTLY NOT AVAILABLE ... COMING SOON")
     elif choice == 5:
         print("[I N F O] YOU HAVE CHOSEN Others...\n\n")
-        print("[I N F O] CURRENTLY NOT AVAILABLE ... COMMING SOON")
+        print("[I N F O] CURRENTLY NOT AVAILABLE ... COMING SOON")
     elif choice == 6:
         print("[I N F O] YOU HAVE CHOSEN (Scapy) Latency-Graph\n\n")
         lg.startFunction()
