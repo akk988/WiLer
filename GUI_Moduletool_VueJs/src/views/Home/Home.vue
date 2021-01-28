@@ -10,7 +10,7 @@
         <v-row class="justify-center"><h2>Please choose a Tool</h2></v-row>
         <v-row class="mx-auto mt-16 mb-10">
           <v-col class="" align="center" cols="12" md="3" sm="12">
-            <v-btn>
+            <v-btn @click="">
               IRTT
             </v-btn>
           </v-col>
